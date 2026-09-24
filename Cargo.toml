@@ -120,3 +120,11 @@ actix-ws = "0.4.0"
 serde-email = { version = "3.2.0", features = ["serde"] }
 tokio = { version = "1.52.3", features = ["rt", "rt-multi-thread", "sync", "time", "macros"] }
 tower-http = { version = "0.7.0", features = ["normalize-path"] }
+
+# Build and test against axum `main` at the merge of https://github.com/tokio-rs/axum/pull/3779.
+# This table applies only when this crate is the workspace root.
+[patch.crates-io]
+axum = { git = "https://github.com/tokio-rs/axum.git", rev = "3ea7f31b8e43962053d5e45a8cea87097adb9ca0" }
+axum-core = { git = "https://github.com/tokio-rs/axum.git", rev = "3ea7f31b8e43962053d5e45a8cea87097adb9ca0" }
+axum-extra = { git = "https://github.com/tokio-rs/axum.git", rev = "3ea7f31b8e43962053d5e45a8cea87097adb9ca0" }
+axum-macros = { git = "https://github.com/tokio-rs/axum.git", rev = "3ea7f31b8e43962053d5e45a8cea87097adb9ca0" }

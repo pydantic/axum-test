@@ -46,7 +46,7 @@ async fn main() {
         let ip_address = IpAddr::V4(Ipv4Addr::new(0, 0, 0, 0));
         let address = SocketAddr::new(ip_address, PORT);
         let listener = TcpListener::bind(address).await.unwrap();
-        serve(listener, app.into_make_service()).await.unwrap();
+        serve(listener, app.into_make_service()).await;
 
         Ok(())
     };

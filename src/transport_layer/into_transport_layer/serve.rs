@@ -3,9 +3,9 @@ use crate::transport_layer::IntoTransportLayer;
 use crate::transport_layer::TransportLayer;
 use crate::transport_layer::TransportLayerBuilder;
 use crate::util::ServeHandle;
-use anyhow::Context;
 use anyhow::Result;
 use anyhow::anyhow;
+use axum::body::Body;
 use axum::extract::Request;
 use axum::response::Response;
 use axum::serve::IncomingStream;
@@ -15,7 +15,7 @@ use tokio::net::TcpListener;
 use tokio::spawn;
 use tower::Service;
 
-impl<M, S> IntoTransportLayer for Serve<TcpListener, M, S>
+impl<M, S> IntoTransportLayer for Serve<TcpListener, M, S, Body>
 where
     M: for<'a> Service<IncomingStream<'a, TcpListener>, Error = Infallible, Response = S>
         + Send
@@ -46,9 +46,8 @@ where
         let socket_addr = self.local_addr()?;
 
         let join_handle = spawn(async move {
-            self.await
-                .context("Failed to create ::axum::Server for TestServer")
-                .expect("Expect server to start serving");
+            // A `Serve` future only completes by panicking, so it has no error to report.
+            match self.await {}
         });
 
         let server_address = format!("http://{socket_addr}");
