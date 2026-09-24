@@ -24,9 +24,8 @@ where
     S::Future: Send,
 {
     let server_handle = spawn(async move {
-        serve(tcp_listener, make_service)
-            .await
-            .expect("Expect server to start serving");
+        // A `Serve` future only completes by panicking, so it has no error to report.
+        match serve(tcp_listener, make_service).await {}
     });
 
     ServeHandle::new(server_handle)
